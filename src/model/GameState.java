@@ -16,12 +16,17 @@ public class GameState {
 
     private ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 
+    private ArrayList<EnemyCraft> enemies = new ArrayList<EnemyCraft>();
+
+
     private boolean gameOver = false;
 
     public static final int RELOAD_TIME = 80;
     public static final int DAMAGE_ASTEROID_COLLISION = 5;
     public static final int SCORE_ASTEROID = 10;
     public static final int INVINCIBILITY_FRAMES = 25;
+    public static final int MAX_ENEMY_CRAFT = 9;
+
 
 
     private int ammoFutureTick = -1;
@@ -39,6 +44,11 @@ public class GameState {
         return asteroids;
     }
 
+    public ArrayList<EnemyCraft> getEnemies() {
+        return enemies;
+    }
+
+
     public void updateIsGameOver(){
         if (this.craft.getHp() <= 0){
             this.gameOver = true;
@@ -51,19 +61,28 @@ public class GameState {
 
     public void onTick(int tickCount) {
         updateIsGameOver();
+        spawnAsteroids(tickCount);
+        spawnEnemyCrafts(tickCount);
+        System.out.println(this.enemies.size());
         craft.move();
         invincibilityFrames(tickCount);
         playerCollisions(tickCount);
         bulletAsteroidCollisions();
-        spawnAsteroids(tickCount);
         manageBullets();
         manageAmmo(tickCount);
         manageAsteroids();
 
     }
 
+    private void spawnEnemyCrafts(int tickCount) {
+        if (tickCount % 90 == 0 && this.enemies.size() < MAX_ENEMY_CRAFT){
+            this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX
+                    - (int) ( Math.random()*100), this.generateYVal()), tickCount));
+        }
+    }
+
     public void bulletAsteroidCollisions() {
-        for (Bullet b: this.craft.getBullets()){
+        for (ABullet b: this.craft.getBullets()){
             for (Asteroid a: this.asteroids){
                 if  (Math.abs(a.getPosition().getX() - b.getPosition().getX())
                         < Asteroid.ASTEROID_RADIUS_HITBOX && Math.abs(a.getPosition().getY() - b.getPosition().getY()) < Asteroid.ASTEROID_RADIUS_HITBOX){
@@ -150,7 +169,7 @@ public class GameState {
 
     public void manageBullets() {
         // move all bullets
-        for (Bullet b : craft.getBullets()) {
+        for (ABullet b : craft.getBullets()) {
             b.move();
         }
 

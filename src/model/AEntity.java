@@ -7,13 +7,15 @@ import java.util.ArrayList;
  * Created by Andrew on 7/15/17.
  */
 public abstract class AEntity {
+    // Make sure these are set properly in implementations
     protected Point position;
     protected Point velocity;
     protected int hitbox;
     protected int hp;
+
     protected boolean visible = true;
     protected boolean invincible = false;
-    protected ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    protected ArrayList<ABullet> bullets = new ArrayList<ABullet>();
 
     /**
      * Turns invincibility on.
@@ -74,7 +76,7 @@ public abstract class AEntity {
         }
     }
 
-    public ArrayList<Bullet> getBullets() {
+    public ArrayList<ABullet> getBullets() {
         return bullets;
     }
 

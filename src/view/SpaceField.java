@@ -1,8 +1,6 @@
 package view;
 
-import model.Asteroid;
-import model.Bullet;
-import model.GameState;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,17 +31,22 @@ public class SpaceField extends JPanel {
         g.setColor(Color.CYAN);
         drawPlayer(g);
         drawPlayerBullets(g);
+        drawEnemies(g);
+        drawAsteroids(g);
+        g.drawRect(0,0, this.getPreferredSize().width-1, this.getPreferredSize().height);
+    }
+
+    private void drawAsteroids(Graphics g) {
         g.setColor(Color.ORANGE);
         for(Asteroid asteroid : this.state.getAsteroids()){
             g.drawOval((int) asteroid.getPosition().getX(), (int) asteroid.getPosition().getY(),
                     Asteroid.ASTEROID_RADIUS,Asteroid.ASTEROID_RADIUS);
         }
-        g.drawRect(0,0, this.getPreferredSize().width-1, this.getPreferredSize().height);
     }
 
     private void drawPlayerBullets(Graphics g) {
         g.setColor(Color.RED);
-        for(Bullet b: state.getPlayer().getBullets()){
+        for(ABullet b: state.getPlayer().getBullets()){
             g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
                     Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
         }
@@ -56,5 +59,17 @@ public class SpaceField extends JPanel {
                     state.getPlayer().getPosition().y - CRAFT_HITBOX_RADIUS,
                     CRAFT_HITBOX_RADIUS*2, CRAFT_HITBOX_RADIUS*2);
         }
+    }
+
+    private void drawEnemies(Graphics g) {
+        for(EnemyCraft enemy : this.state.getEnemies()){
+            if(enemy.isVisible()){
+                g.setColor(Color.RED);
+                g.drawRect(enemy.getPosition().x - EnemyCraft.ENEMY_HITBOX,
+                        enemy.getPosition().y - EnemyCraft.ENEMY_HITBOX,
+                        EnemyCraft.ENEMY_HITBOX*2, EnemyCraft.ENEMY_HITBOX*2);
+            }
+        }
+
     }
 }

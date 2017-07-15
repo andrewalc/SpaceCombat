@@ -34,7 +34,7 @@ public class Craft extends AEntity {
          * @param spawnPoint Point where the craft should spawn.
          */
     public Craft(Point spawnPoint){
-            // Spawn point
+        // Spawn point
         this.position = spawnPoint;
         // Set variables
         this.velocity = new Point(0,0);
