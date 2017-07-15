@@ -5,7 +5,7 @@ import view.SpaceField;
 import java.awt.*;
 
 /**
- * Created by Andrew on 7/15/17.
+ * Class representing an Enemy Craft.
  */
 public class EnemyCraft extends AEntity{
     private int tickCreated;
