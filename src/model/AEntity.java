@@ -15,7 +15,7 @@ public abstract class AEntity {
 
     protected boolean visible = true;
     protected boolean invincible = false;
-    protected ArrayList<ABullet> bullets = new ArrayList<ABullet>();
+    protected ArrayList<ABullet> bullets;
 
     /**
      * Turns invincibility on.

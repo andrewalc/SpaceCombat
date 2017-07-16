@@ -42,6 +42,8 @@ public class Craft extends AEntity {
         this.ammo = MAX_AMMO;
         this.score = 0;
         this.hitbox = PLAYER_HITBOX;
+        this.bullets = new ArrayList<ABullet>();
+
     }
 
     /**

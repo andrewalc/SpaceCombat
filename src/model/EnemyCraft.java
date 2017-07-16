@@ -3,6 +3,7 @@ package model;
 import view.SpaceField;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Class representing an Enemy Craft.
@@ -24,6 +25,7 @@ public class EnemyCraft extends AEntity{
         this.velocity = new Point(0,0);
         this.hp = ENEMY_MAX_HP;
         this.hitbox = ENEMY_HITBOX;
+        this.bullets = new ArrayList<ABullet>();
         this.tickCreated = tickCreated;
     }
 
