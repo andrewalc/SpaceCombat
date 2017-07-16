@@ -17,7 +17,7 @@ public abstract class AEntity {
     protected boolean invincible = false;
     // TODO: Consider making enemy bullets a field in GameState instead of being tied to a enemy.
     // When an enemy is removed from the game all their bullets get deleted too. They should probably persist. Workaround?
-    protected ArrayList<ABullet> bullets;
+    protected ArrayList<AProjectile> bullets;
 
     /**
      * Turns invincibility on.
@@ -78,7 +78,7 @@ public abstract class AEntity {
         }
     }
 
-    public ArrayList<ABullet> getBullets() {
+    public ArrayList<AProjectile> getBullets() {
         return bullets;
     }
 

@@ -99,7 +99,7 @@ public class GameState {
             if ((tickCount - enemy.getTickCreated()) % 33 == 0){
                 enemy.fireBullet();
             }
-            for (ABullet eb : enemy.getBullets()){
+            for (AProjectile eb : enemy.getBullets()){
                 eb.move();
             }
         }
@@ -119,7 +119,7 @@ public class GameState {
     // May have to do with the cleanup methods removing bullets when not visible. Hard to determine since the error isn't
     // thrown too often. Try getting rid of the removing functionality.
     private void bulletEnemyCraftCollisions() {
-        for (ABullet b: this.craft.getBullets()){
+        for (AProjectile b: this.craft.getBullets()){
             for (EnemyCraft enemy: this.enemies){
                 if  (Math.abs(enemy.getPosition().getX() - b.getPosition().getX()) < Bullet.BULLET_WIDTH/2 + EnemyCraft.ENEMY_HITBOX_RADIUS
                         && Math.abs(enemy.getPosition().getY() - b.getPosition().getY()) < Bullet.BULLET_HEIGHT/2 + EnemyCraft.ENEMY_HITBOX_RADIUS){
@@ -132,12 +132,12 @@ public class GameState {
     }
 
     public void bulletAsteroidCollisions() {
-        for (ABullet b: this.craft.getBullets()){
+        for (AProjectile b: this.craft.getBullets()){
             for (Asteroid a: this.asteroids){
                 if  (Math.abs(a.getPosition().getX() - b.getPosition().getX())
                         < Asteroid.ASTEROID_RADIUS_HITBOX && Math.abs(a.getPosition().getY() - b.getPosition().getY()) < Asteroid.ASTEROID_RADIUS_HITBOX){
                     System.out.println("COLLISION!!!!!");
-                    a.collisionWithBullet();
+                    a.collisionWithObject();
                     b.collisionWithObject();
                     this.craft.addToScore(SCORE_ASTEROID);
                 }
@@ -177,7 +177,7 @@ public class GameState {
                 this.damageInvincibilityTrigger(tickCount);
             }
 
-            for (ABullet eb : enemy.getBullets()) {
+            for (AProjectile eb : enemy.getBullets()) {
                 if (Math.abs(this.craft.getPosition().getX() - eb.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
                         && Math.abs(this.craft.getPosition().getY() - eb.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
                     if (!this.craft.invincible) {
@@ -253,7 +253,7 @@ public class GameState {
 
     public void manageBullets() {
         // move all bullets
-        for (ABullet b : craft.getBullets()) {
+        for (AProjectile b : craft.getBullets()) {
             b.move();
         }
 

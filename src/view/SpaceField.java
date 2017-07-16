@@ -45,7 +45,7 @@ public class SpaceField extends JPanel {
 
     private void drawPlayerBullets(Graphics g) {
         g.setColor(Color.RED);
-        for(ABullet b: state.getPlayer().getBullets()){
+        for(AProjectile b: state.getPlayer().getBullets()){
             if(b.isVisible()){
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
                         Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
@@ -56,7 +56,7 @@ public class SpaceField extends JPanel {
     private void drawEnemyBullets(Graphics g) {
         g.setColor(Color.GREEN);
         for(EnemyCraft enemy : state.getEnemies()){
-            for(ABullet b: enemy.getBullets()){
+            for(AProjectile b: enemy.getBullets()){
                 //draw origin
                 //g.drawRect((int)b.getPosition().getX(), (int)b.getPosition().getY(), 1,1);
                 if(b.isVisible()){

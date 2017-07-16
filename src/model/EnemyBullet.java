@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Class representing an Enemy's Bullets.
  */
-public class EnemyBullet extends ABullet {
+public class EnemyBullet extends AProjectile {
     public static final int ENEMY_BULLET_HEIGHT = 4;
     public static final int ENEMY_BULLET_WIDTH = 10;
     private static final int ENEMY_BULLET_SPEED = 17;
@@ -15,12 +15,13 @@ public class EnemyBullet extends ABullet {
      */
     public EnemyBullet(Point spawnPoint){
         this.position = spawnPoint;
+        setVelocity(new Point(-ENEMY_BULLET_SPEED, 0));
     }
     /**
      * Method call that moves the bullet.
      */
     public void move() {
-        this.position.x -= ENEMY_BULLET_SPEED;
+        this.position.x += this.getVelocity().getX();
         this.checkVisibility();
     }
 }

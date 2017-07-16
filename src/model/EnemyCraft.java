@@ -25,7 +25,7 @@ public class EnemyCraft extends AEntity{
         this.velocity = new Point(0,0);
         this.hp = ENEMY_MAX_HP;
         this.hitboxRadius = ENEMY_HITBOX_RADIUS;
-        this.bullets = new ArrayList<ABullet>();
+        this.bullets = new ArrayList<AProjectile>();
         this.tickCreated = tickCreated;
     }
 

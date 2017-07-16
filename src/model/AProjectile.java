@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Created by Andrew on 7/15/17.
  */
-public abstract class ABullet {
+public abstract class AProjectile {
     // Values
     protected Point position;
     protected Point velocity;
@@ -35,9 +35,18 @@ public abstract class ABullet {
      * Checks whether this bullet is still on screen and should be rendered.
      */
     public void checkVisibility() {
-        if (this.position.x > SCView.WINDOW_WIDTH || this.position.x < 0) {
+        if (this.position.x > SCView.WINDOW_WIDTH && this.velocity.getX() > 0  ||
+                this.position.x < 0 && this.velocity.getX() < 0) {
             this.visible = false;
         }
+    }
+
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
     }
 
 }
