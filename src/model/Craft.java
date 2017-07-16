@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Craft extends AEntity {
 
     // Constants
-    public static final int PLAYER_HITBOX = 20;
+    public static final int PLAYER_HITBOX_RADIUS = 10;
     private static final int MAX_HP = 100;
     private static final int MAX_AMMO = 25;
     private static final double ACCELERATION = 6;
@@ -41,7 +41,7 @@ public class Craft extends AEntity {
         this.hp = MAX_HP;
         this.ammo = MAX_AMMO;
         this.score = 0;
-        this.hitbox = PLAYER_HITBOX;
+        this.hitboxRadius = PLAYER_HITBOX_RADIUS;
         this.bullets = new ArrayList<ABullet>();
 
     }
@@ -101,22 +101,22 @@ public class Craft extends AEntity {
         }
 
         // blocking out of bounds area and resetting velocity
-        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitbox/2) {
-            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitbox/2;
+        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2) {
+            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2;
             this.velocity.x = 0;
         }
-        if (this.position.x < 0 + this.hitbox/2) {
-            this.position.x = 0 + this.hitbox/2;
+        if (this.position.x < 0 + this.hitboxRadius /2) {
+            this.position.x = 0 + this.hitboxRadius /2;
             this.velocity.x = 0;
 
         }
-        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2) {
-            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2;
+        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2) {
+            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2;
             this.velocity.y = 0;
 
         }
-        if (this.position.y < 0 + this.hitbox/2) {
-            this.position.y = 0 + this.hitbox/2;
+        if (this.position.y < 0 + this.hitboxRadius /2) {
+            this.position.y = 0 + this.hitboxRadius /2;
             this.velocity.y = 0;
 
         }

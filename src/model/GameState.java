@@ -23,11 +23,14 @@ public class GameState {
 
     public static final int RELOAD_TIME = 80;
     public static final int DAMAGE_ASTEROID_COLLISION = 5;
+    static final int DAMAGE_ENEMY_BULLET = 10;
+    static final int DAMAGE_ENEMY_CRAFT_COLLISION = 15;
+
     public static final int SCORE_ASTEROID = 10;
     public static final int SCORE_ENEMY_CRAFT = 100;
 
     public static final int INVINCIBILITY_FRAMES = 25;
-    public static final int MAX_ENEMY_CRAFT = 9;
+    public static final int MAX_ENEMY_CRAFT = 10;
 
 
 
@@ -78,7 +81,7 @@ public class GameState {
 
     private void spawnEnemyCrafts(int tickCount) {
         if (tickCount % 90 == 0 && this.enemies.size() < MAX_ENEMY_CRAFT){
-            this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX
+            this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX_RADIUS
                     - (int) ( Math.random()*100), this.generateYVal()), tickCount));
         }
     }
@@ -128,8 +131,9 @@ public class GameState {
 
     public void playerCollisions(int tickCount) {
         for (Asteroid a : this.asteroids) {
-            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Asteroid.ASTEROID_RADIUS_HITBOX
-                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < Asteroid.ASTEROID_RADIUS_HITBOX) {
+            // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
+            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX
+                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX) {
                 if (!this.craft.isInvincible()) {
                     if (this.craft.getHp() - DAMAGE_ASTEROID_COLLISION < 0) {
                         this.craft.kill();
@@ -138,6 +142,37 @@ public class GameState {
                     }
                 }
                 this.damageInvincibilityTrigger(tickCount);
+            }
+        }
+
+        for (EnemyCraft enemy : this.enemies) {
+            // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
+            if (Math.abs(this.craft.position.getX() - enemy.position.getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS
+                    && Math.abs(this.craft.position.getY() - enemy.position.getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS) {
+                if (!this.craft.isInvincible()) {
+                    if (this.craft.getHp() - DAMAGE_ENEMY_CRAFT_COLLISION < 0) {
+                        craft.kill();
+                    }
+                    else {
+                        craft.damage(DAMAGE_ENEMY_CRAFT_COLLISION);
+                    }
+                }
+                this.damageInvincibilityTrigger(tickCount);
+            }
+
+            for (ABullet eb : enemy.getBullets()) {
+                if (Math.abs(this.craft.position.getX() - eb.position.getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
+                        && Math.abs(this.craft.position.getY() - eb.position.getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
+                    if (!this.craft.invincible) {
+                        if (this.craft.getHp() - DAMAGE_ENEMY_BULLET < 0) {
+                            craft.kill();
+                        }
+                        else {
+                            craft.damage(DAMAGE_ENEMY_BULLET);
+                        }
+                    }
+                    this.damageInvincibilityTrigger(tickCount);
+                }
             }
         }
     }
@@ -192,8 +227,8 @@ public class GameState {
     }
 
     public int generateYVal() {
-        int min = Craft.PLAYER_HITBOX/2;
-        int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX/2;
+        int min = Craft.PLAYER_HITBOX_RADIUS;
+        int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX_RADIUS;
         return new Random().nextInt(max + 1 - min) + min;
     }
 

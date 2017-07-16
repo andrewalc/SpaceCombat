@@ -10,7 +10,7 @@ public abstract class AEntity {
     // Make sure these are set properly in implementations
     protected Point position;
     protected Point velocity;
-    protected int hitbox;
+    protected int hitboxRadius;
     protected int hp;
 
     protected boolean visible = true;
