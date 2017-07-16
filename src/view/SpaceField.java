@@ -46,8 +46,10 @@ public class SpaceField extends JPanel {
     private void drawPlayerBullets(Graphics g) {
         g.setColor(Color.RED);
         for(ABullet b: state.getPlayer().getBullets()){
-            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
-                    Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
+            if(b.isVisible()){
+                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
+                        Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
+            }
         }
     }
 
@@ -57,9 +59,11 @@ public class SpaceField extends JPanel {
             for(ABullet b: enemy.getBullets()){
                 //draw origin
                 //g.drawRect((int)b.getPosition().getX(), (int)b.getPosition().getY(), 1,1);
-                g.drawRect((int) b.getPosition().getX() - EnemyBullet.ENEMY_BULLET_WIDTH/2,
-                        (int) b.getPosition().getY() - EnemyBullet.ENEMY_BULLET_HEIGHT/2,
-                        EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
+                if(b.isVisible()){
+                    g.drawRect((int) b.getPosition().getX() - EnemyBullet.ENEMY_BULLET_WIDTH/2,
+                            (int) b.getPosition().getY() - EnemyBullet.ENEMY_BULLET_HEIGHT/2,
+                            EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
+                }
             }
         }
 

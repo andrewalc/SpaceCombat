@@ -1,6 +1,5 @@
 package model;
 
-import view.SCView;
 import view.SpaceField;
 
 import java.awt.*;
@@ -23,8 +22,10 @@ public class GameState {
 
     public static final int RELOAD_TIME = 80;
     public static final int DAMAGE_ASTEROID_COLLISION = 5;
-    static final int DAMAGE_ENEMY_BULLET = 10;
-    static final int DAMAGE_ENEMY_CRAFT_COLLISION = 15;
+    public static final int DAMAGE_ENEMY_BULLET = 10;
+    public static final int DAMAGE_ENEMY_CRAFT_COLLISION = 15;
+    public static final int DAMAGE_PLAYER_BULLET = 1;
+
 
     public static final int SCORE_ASTEROID = 10;
     public static final int SCORE_ENEMY_CRAFT = 100;
@@ -73,6 +74,7 @@ public class GameState {
         invincibilityFrames(tickCount);
         playerCollisions(tickCount);
         bulletAsteroidCollisions();
+        bulletEnemyCraftCollisions();
         manageBullets();
         manageAmmo(tickCount);
         manageAsteroids();
@@ -81,7 +83,7 @@ public class GameState {
 
     private void spawnEnemyCrafts(int tickCount) {
         if (tickCount % 90 == 0 && this.enemies.size() < MAX_ENEMY_CRAFT){
-            this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX_RADIUS
+            this.enemies.add(new EnemyCraft(new Point((int) SpaceField.FIELD_DIM.getWidth() - EnemyCraft.ENEMY_HITBOX_RADIUS
                     - (int) ( Math.random()*100), this.generateYVal()), tickCount));
         }
     }
@@ -110,6 +112,21 @@ public class GameState {
             if (!this.enemies.get(i).isVisible()){
                 this.enemies.remove(i);
                 this.craft.addToScore(SCORE_ENEMY_CRAFT);
+            }
+        }
+    }
+    // TODO: Sometimes get a concurrent modification error with methods using for each on ABullets.
+    // May have to do with the cleanup methods removing bullets when not visible. Hard to determine since the error isn't
+    // thrown too often. Try getting rid of the removing functionality.
+    private void bulletEnemyCraftCollisions() {
+        for (ABullet b: this.craft.getBullets()){
+            for (EnemyCraft enemy: this.enemies){
+                if  (Math.abs(enemy.getPosition().getX() - b.getPosition().getX()) < Bullet.BULLET_WIDTH/2 + EnemyCraft.ENEMY_HITBOX_RADIUS
+                        && Math.abs(enemy.getPosition().getY() - b.getPosition().getY()) < Bullet.BULLET_HEIGHT/2 + EnemyCraft.ENEMY_HITBOX_RADIUS){
+                    System.out.println("ENEMY COLLISION!!!!!");
+                    enemy.collisionWithBullet();
+                    b.collisionWithObject();
+                }
             }
         }
     }
@@ -161,14 +178,15 @@ public class GameState {
             }
 
             for (ABullet eb : enemy.getBullets()) {
-                if (Math.abs(this.craft.position.getX() - eb.position.getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
-                        && Math.abs(this.craft.position.getY() - eb.position.getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
+                if (Math.abs(this.craft.getPosition().getX() - eb.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
+                        && Math.abs(this.craft.getPosition().getY() - eb.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
                     if (!this.craft.invincible) {
                         if (this.craft.getHp() - DAMAGE_ENEMY_BULLET < 0) {
                             craft.kill();
                         }
                         else {
                             craft.damage(DAMAGE_ENEMY_BULLET);
+                            eb.collisionWithObject();
                         }
                     }
                     this.damageInvincibilityTrigger(tickCount);
@@ -205,12 +223,13 @@ public class GameState {
 
     private void spawnAsteroids(int tickCount) {
         if (tickCount % 7 == 0) {
-            this.asteroids.add(new Asteroid(new Point(SCView.WINDOW_WIDTH + Asteroid.ASTEROID_RADIUS * 2, this.generateYVal())));
+            this.asteroids.add(new Asteroid(
+                    new Point((int) SpaceField.FIELD_DIM.getWidth() + Asteroid.ASTEROID_RADIUS * 2, this.generateYVal())));
         }
     }
 
     private void manageAsteroids() {
-        // Move all astroids
+        // Move all asteroids
         for (Asteroid a : this.asteroids){
             a.move();
         }

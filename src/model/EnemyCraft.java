@@ -12,7 +12,7 @@ public class EnemyCraft extends AEntity{
 
     private int tickCreated;
     public static final int ENEMY_HITBOX_RADIUS = 20;
-    private static final int ENEMY_MAX_HP = 100;
+    private static final int ENEMY_MAX_HP = 5;
 
     private static final double ENEMY_ACCELERATION = 6;
     private static final double ENEMY_DECCELERATION = 1;
@@ -94,5 +94,9 @@ public class EnemyCraft extends AEntity{
             this.velocity.y = 0;
 
         }
+    }
+
+    public void collisionWithBullet() {
+        this.damage(GameState.DAMAGE_PLAYER_BULLET);
     }
 }

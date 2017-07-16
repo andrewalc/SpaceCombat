@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 /**
- * Created by Andrew on 7/15/17.
+ * Abstract class for an entity, particularly space crafts.
  */
 public abstract class AEntity {
     // Make sure these are set properly in implementations
@@ -15,6 +15,8 @@ public abstract class AEntity {
 
     protected boolean visible = true;
     protected boolean invincible = false;
+    // TODO: Consider making enemy bullets a field in GameState instead of being tied to a enemy.
+    // When an enemy is removed from the game all their bullets get deleted too. They should probably persist. Workaround?
     protected ArrayList<ABullet> bullets;
 
     /**

@@ -85,38 +85,41 @@ public class Craft extends AEntity {
             this.velocity.y += DECCELERATION;
         }
 
-        //
+        // Capping velocity in the +X
         if (Math.abs(this.velocity.x) > MAXIMUM_VELOCITY && this.velocity.x > 0) {
             this.velocity.x = MAXIMUM_VELOCITY;
         }
+        // Capping velocity in the -X
         else if (Math.abs(this.velocity.x) > MAXIMUM_VELOCITY && this.velocity.x < 0) {
             this.velocity.x = -MAXIMUM_VELOCITY;
         }
 
+        // Capping velocity in the +Y
         if (Math.abs(this.velocity.y) > MAXIMUM_VELOCITY && this.velocity.y > 0) {
             this.velocity.y = MAXIMUM_VELOCITY;
         }
+        // Capping velocity in the -Y
         else if (Math.abs(this.velocity.y) > MAXIMUM_VELOCITY && this.velocity.y < 0) {
             this.velocity.y = -MAXIMUM_VELOCITY;
         }
 
         // blocking out of bounds area and resetting velocity
-        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2) {
-            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2;
+        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius) {
+            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius;
             this.velocity.x = 0;
         }
-        if (this.position.x < 0 + this.hitboxRadius /2) {
-            this.position.x = 0 + this.hitboxRadius /2;
+        if (this.position.x < 0 + this.hitboxRadius) {
+            this.position.x = 0 + this.hitboxRadius;
             this.velocity.x = 0;
 
         }
-        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2) {
-            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2;
+        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius) {
+            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius;
             this.velocity.y = 0;
 
         }
-        if (this.position.y < 0 + this.hitboxRadius /2) {
-            this.position.y = 0 + this.hitboxRadius /2;
+        if (this.position.y < 0 + this.hitboxRadius) {
+            this.position.y = 0 + this.hitboxRadius;
             this.velocity.y = 0;
 
         }
