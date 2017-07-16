@@ -31,6 +31,8 @@ public class SpaceField extends JPanel {
         g.setColor(Color.CYAN);
         drawPlayer(g);
         drawPlayerBullets(g);
+        //TODO: Enemy bullets are overriding player bullets???
+        drawEnemyBullets(g);
         drawEnemies(g);
         drawAsteroids(g);
         g.drawRect(0,0, this.getPreferredSize().width-1, this.getPreferredSize().height);
@@ -50,6 +52,17 @@ public class SpaceField extends JPanel {
             g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
                     Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
         }
+    }
+
+    private void drawEnemyBullets(Graphics g) {
+        g.setColor(Color.GREEN);
+        for(EnemyCraft enemy : state.getEnemies()){
+            for(ABullet b: state.getPlayer().getBullets()){
+                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
+                        EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
+            }
+        }
+
     }
 
 

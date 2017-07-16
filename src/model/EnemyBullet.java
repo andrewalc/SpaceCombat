@@ -20,7 +20,7 @@ public class EnemyBullet extends ABullet {
      * Method call that moves the bullet.
      */
     public void move() {
-        this.position.x += ENEMY_BULLET_SPEED;
+        this.position.x -= ENEMY_BULLET_SPEED;
         this.checkVisibility();
     }
 }

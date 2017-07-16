@@ -24,6 +24,8 @@ public class GameState {
     public static final int RELOAD_TIME = 80;
     public static final int DAMAGE_ASTEROID_COLLISION = 5;
     public static final int SCORE_ASTEROID = 10;
+    public static final int SCORE_ENEMY_CRAFT = 100;
+
     public static final int INVINCIBILITY_FRAMES = 25;
     public static final int MAX_ENEMY_CRAFT = 9;
 
@@ -63,8 +65,8 @@ public class GameState {
         updateIsGameOver();
         spawnAsteroids(tickCount);
         spawnEnemyCrafts(tickCount);
-        System.out.println(this.enemies.size());
         craft.move();
+        manageEnemyCrafts(tickCount);
         invincibilityFrames(tickCount);
         playerCollisions(tickCount);
         bulletAsteroidCollisions();
@@ -78,6 +80,34 @@ public class GameState {
         if (tickCount % 90 == 0 && this.enemies.size() < MAX_ENEMY_CRAFT){
             this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX
                     - (int) ( Math.random()*100), this.generateYVal()), tickCount));
+        }
+    }
+
+
+    private void manageEnemyCrafts(int tickCount) {
+
+        for (EnemyCraft enemy: this.enemies){
+            if (enemy.hp < 1){
+                enemy.disableVisibility();
+            }
+            enemy.move();
+            if ((tickCount - enemy.getTickCreated()) % 33 == 0){
+                enemy.fireBullet();
+            }
+            for (ABullet eb : enemy.getBullets()){
+                eb.move();
+            }
+        }
+
+        this.cleanUpEnemyCrafts();
+    }
+
+    public void cleanUpEnemyCrafts() {
+        for (int i = 0; i < this.enemies.size(); i++){
+            if (!this.enemies.get(i).isVisible()){
+                this.enemies.remove(i);
+                this.craft.addToScore(SCORE_ENEMY_CRAFT);
+            }
         }
     }
 

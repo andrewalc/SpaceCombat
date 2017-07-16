@@ -8,6 +8,7 @@ import java.awt.*;
  * Class representing an Enemy Craft.
  */
 public class EnemyCraft extends AEntity{
+
     private int tickCreated;
     public static final int ENEMY_HITBOX = 20;
     private static final int ENEMY_MAX_HP = 100;
@@ -26,8 +27,12 @@ public class EnemyCraft extends AEntity{
         this.tickCreated = tickCreated;
     }
 
-    private void fireBullet() {
-        this.bullets.add(new EnemyBullet(new Point(this.position.x + Bullet.BULLET_WIDTH, this.position.y)));
+    public int getTickCreated() {
+        return tickCreated;
+    }
+
+    protected void fireBullet() {
+        this.bullets.add(new EnemyBullet(new Point(this.position.x - Bullet.BULLET_WIDTH, this.position.y)));
     }
 
     @Override
