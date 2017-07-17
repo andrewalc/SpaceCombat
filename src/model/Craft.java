@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Craft extends AEntity {
 
     // Constants
-    public static final int PLAYER_HITBOX = 20;
+    public static final int PLAYER_HITBOX_RADIUS = 10;
     private static final int MAX_HP = 100;
     private static final int MAX_AMMO = 25;
     private static final double ACCELERATION = 6;
@@ -41,8 +41,8 @@ public class Craft extends AEntity {
         this.hp = MAX_HP;
         this.ammo = MAX_AMMO;
         this.score = 0;
-        this.hitbox = PLAYER_HITBOX;
-        this.bullets = new ArrayList<ABullet>();
+        this.hitboxRadius = PLAYER_HITBOX_RADIUS;
+        this.bullets = new ArrayList<AProjectile>();
 
     }
 
@@ -85,38 +85,41 @@ public class Craft extends AEntity {
             this.velocity.y += DECCELERATION;
         }
 
-        //
+        // Capping velocity in the +X
         if (Math.abs(this.velocity.x) > MAXIMUM_VELOCITY && this.velocity.x > 0) {
             this.velocity.x = MAXIMUM_VELOCITY;
         }
+        // Capping velocity in the -X
         else if (Math.abs(this.velocity.x) > MAXIMUM_VELOCITY && this.velocity.x < 0) {
             this.velocity.x = -MAXIMUM_VELOCITY;
         }
 
+        // Capping velocity in the +Y
         if (Math.abs(this.velocity.y) > MAXIMUM_VELOCITY && this.velocity.y > 0) {
             this.velocity.y = MAXIMUM_VELOCITY;
         }
+        // Capping velocity in the -Y
         else if (Math.abs(this.velocity.y) > MAXIMUM_VELOCITY && this.velocity.y < 0) {
             this.velocity.y = -MAXIMUM_VELOCITY;
         }
 
         // blocking out of bounds area and resetting velocity
-        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitbox/2) {
-            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitbox/2;
+        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius) {
+            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius;
             this.velocity.x = 0;
         }
-        if (this.position.x < 0 + this.hitbox/2) {
-            this.position.x = 0 + this.hitbox/2;
+        if (this.position.x < 0 + this.hitboxRadius) {
+            this.position.x = 0 + this.hitboxRadius;
             this.velocity.x = 0;
 
         }
-        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2) {
-            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2;
+        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius) {
+            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius;
             this.velocity.y = 0;
 
         }
-        if (this.position.y < 0 + this.hitbox/2) {
-            this.position.y = 0 + this.hitbox/2;
+        if (this.position.y < 0 + this.hitboxRadius) {
+            this.position.y = 0 + this.hitboxRadius;
             this.velocity.y = 0;
 
         }

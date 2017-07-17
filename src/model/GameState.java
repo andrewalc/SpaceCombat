@@ -1,6 +1,5 @@
 package model;
 
-import view.SCView;
 import view.SpaceField;
 
 import java.awt.*;
@@ -23,11 +22,16 @@ public class GameState {
 
     public static final int RELOAD_TIME = 80;
     public static final int DAMAGE_ASTEROID_COLLISION = 5;
+    public static final int DAMAGE_ENEMY_BULLET = 10;
+    public static final int DAMAGE_ENEMY_CRAFT_COLLISION = 15;
+    public static final int DAMAGE_PLAYER_BULLET = 1;
+
+
     public static final int SCORE_ASTEROID = 10;
     public static final int SCORE_ENEMY_CRAFT = 100;
 
     public static final int INVINCIBILITY_FRAMES = 25;
-    public static final int MAX_ENEMY_CRAFT = 9;
+    public static final int MAX_ENEMY_CRAFT = 10;
 
 
 
@@ -70,6 +74,7 @@ public class GameState {
         invincibilityFrames(tickCount);
         playerCollisions(tickCount);
         bulletAsteroidCollisions();
+        bulletEnemyCraftCollisions();
         manageBullets();
         manageAmmo(tickCount);
         manageAsteroids();
@@ -78,7 +83,7 @@ public class GameState {
 
     private void spawnEnemyCrafts(int tickCount) {
         if (tickCount % 90 == 0 && this.enemies.size() < MAX_ENEMY_CRAFT){
-            this.enemies.add(new EnemyCraft(new Point(SCView.WINDOW_WIDTH - EnemyCraft.ENEMY_HITBOX
+            this.enemies.add(new EnemyCraft(new Point((int) SpaceField.FIELD_DIM.getWidth() - EnemyCraft.ENEMY_HITBOX_RADIUS
                     - (int) ( Math.random()*100), this.generateYVal()), tickCount));
         }
     }
@@ -94,7 +99,7 @@ public class GameState {
             if ((tickCount - enemy.getTickCreated()) % 33 == 0){
                 enemy.fireBullet();
             }
-            for (ABullet eb : enemy.getBullets()){
+            for (AProjectile eb : enemy.getBullets()){
                 eb.move();
             }
         }
@@ -110,14 +115,29 @@ public class GameState {
             }
         }
     }
+    // TODO: Sometimes get a concurrent modification error with methods using for each on ABullets.
+    // May have to do with the cleanup methods removing bullets when not visible. Hard to determine since the error isn't
+    // thrown too often. Try getting rid of the removing functionality.
+    private void bulletEnemyCraftCollisions() {
+        for (AProjectile b: this.craft.getBullets()){
+            for (EnemyCraft enemy: this.enemies){
+                if  (Math.abs(enemy.getPosition().getX() - b.getPosition().getX()) < Bullet.BULLET_WIDTH/2 + EnemyCraft.ENEMY_HITBOX_RADIUS
+                        && Math.abs(enemy.getPosition().getY() - b.getPosition().getY()) < Bullet.BULLET_HEIGHT/2 + EnemyCraft.ENEMY_HITBOX_RADIUS){
+                    System.out.println("ENEMY COLLISION!!!!!");
+                    enemy.collisionWithBullet();
+                    b.collisionWithObject();
+                }
+            }
+        }
+    }
 
     public void bulletAsteroidCollisions() {
-        for (ABullet b: this.craft.getBullets()){
+        for (AProjectile b: this.craft.getBullets()){
             for (Asteroid a: this.asteroids){
                 if  (Math.abs(a.getPosition().getX() - b.getPosition().getX())
                         < Asteroid.ASTEROID_RADIUS_HITBOX && Math.abs(a.getPosition().getY() - b.getPosition().getY()) < Asteroid.ASTEROID_RADIUS_HITBOX){
                     System.out.println("COLLISION!!!!!");
-                    a.collisionWithBullet();
+                    a.collisionWithObject();
                     b.collisionWithObject();
                     this.craft.addToScore(SCORE_ASTEROID);
                 }
@@ -128,8 +148,9 @@ public class GameState {
 
     public void playerCollisions(int tickCount) {
         for (Asteroid a : this.asteroids) {
-            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Asteroid.ASTEROID_RADIUS_HITBOX
-                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < Asteroid.ASTEROID_RADIUS_HITBOX) {
+            // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
+            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX
+                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX) {
                 if (!this.craft.isInvincible()) {
                     if (this.craft.getHp() - DAMAGE_ASTEROID_COLLISION < 0) {
                         this.craft.kill();
@@ -138,6 +159,38 @@ public class GameState {
                     }
                 }
                 this.damageInvincibilityTrigger(tickCount);
+            }
+        }
+
+        for (EnemyCraft enemy : this.enemies) {
+            // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
+            if (Math.abs(this.craft.position.getX() - enemy.position.getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS
+                    && Math.abs(this.craft.position.getY() - enemy.position.getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS) {
+                if (!this.craft.isInvincible()) {
+                    if (this.craft.getHp() - DAMAGE_ENEMY_CRAFT_COLLISION < 0) {
+                        craft.kill();
+                    }
+                    else {
+                        craft.damage(DAMAGE_ENEMY_CRAFT_COLLISION);
+                    }
+                }
+                this.damageInvincibilityTrigger(tickCount);
+            }
+
+            for (AProjectile eb : enemy.getBullets()) {
+                if (Math.abs(this.craft.getPosition().getX() - eb.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
+                        && Math.abs(this.craft.getPosition().getY() - eb.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
+                    if (!this.craft.invincible) {
+                        if (this.craft.getHp() - DAMAGE_ENEMY_BULLET < 0) {
+                            craft.kill();
+                        }
+                        else {
+                            craft.damage(DAMAGE_ENEMY_BULLET);
+                            eb.collisionWithObject();
+                        }
+                    }
+                    this.damageInvincibilityTrigger(tickCount);
+                }
             }
         }
     }
@@ -170,12 +223,13 @@ public class GameState {
 
     private void spawnAsteroids(int tickCount) {
         if (tickCount % 7 == 0) {
-            this.asteroids.add(new Asteroid(new Point(SCView.WINDOW_WIDTH + Asteroid.ASTEROID_RADIUS * 2, this.generateYVal())));
+            this.asteroids.add(new Asteroid(
+                    new Point((int) SpaceField.FIELD_DIM.getWidth() + Asteroid.ASTEROID_RADIUS * 2, this.generateYVal())));
         }
     }
 
     private void manageAsteroids() {
-        // Move all astroids
+        // Move all asteroids
         for (Asteroid a : this.asteroids){
             a.move();
         }
@@ -192,14 +246,14 @@ public class GameState {
     }
 
     public int generateYVal() {
-        int min = Craft.PLAYER_HITBOX/2;
-        int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX/2;
+        int min = Craft.PLAYER_HITBOX_RADIUS;
+        int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX_RADIUS;
         return new Random().nextInt(max + 1 - min) + min;
     }
 
     public void manageBullets() {
         // move all bullets
-        for (ABullet b : craft.getBullets()) {
+        for (AProjectile b : craft.getBullets()) {
             b.move();
         }
 

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class EnemyCraft extends AEntity{
 
     private int tickCreated;
-    public static final int ENEMY_HITBOX = 20;
-    private static final int ENEMY_MAX_HP = 100;
+    public static final int ENEMY_HITBOX_RADIUS = 20;
+    private static final int ENEMY_MAX_HP = 5;
 
     private static final double ENEMY_ACCELERATION = 6;
     private static final double ENEMY_DECCELERATION = 1;
@@ -24,8 +24,8 @@ public class EnemyCraft extends AEntity{
         this.position = spawnpoint;
         this.velocity = new Point(0,0);
         this.hp = ENEMY_MAX_HP;
-        this.hitbox = ENEMY_HITBOX;
-        this.bullets = new ArrayList<ABullet>();
+        this.hitboxRadius = ENEMY_HITBOX_RADIUS;
+        this.bullets = new ArrayList<AProjectile>();
         this.tickCreated = tickCreated;
     }
 
@@ -75,24 +75,28 @@ public class EnemyCraft extends AEntity{
         }
 
         // blocking out of bounds area and resetting velocity
-        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitbox/2) {
-            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitbox/2;
+        if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2) {
+            this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius /2;
             this.velocity.x = 0;
         }
-        if (this.position.x < 0 + this.hitbox/2) {
-            this.position.x = 0 + this.hitbox/2;
+        if (this.position.x < 0 + this.hitboxRadius /2) {
+            this.position.x = 0 + this.hitboxRadius /2;
             this.velocity.x = 0;
 
         }
-        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2) {
-            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitbox/2;
+        if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2) {
+            this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius /2;
             this.velocity.y = 0;
 
         }
-        if (this.position.y < 0 + this.hitbox/2) {
-            this.position.y = 0 + this.hitbox/2;
+        if (this.position.y < 0 + this.hitboxRadius /2) {
+            this.position.y = 0 + this.hitboxRadius /2;
             this.velocity.y = 0;
 
         }
+    }
+
+    public void collisionWithBullet() {
+        this.damage(GameState.DAMAGE_PLAYER_BULLET);
     }
 }

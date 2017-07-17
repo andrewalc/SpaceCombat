@@ -1,13 +1,11 @@
 package model;
 
-import view.SCView;
-
 import java.awt.*;
 
 /**
  * Class that represents a standard bullet.
  */
-public class Bullet extends ABullet{
+public class Bullet extends AProjectile {
     // Constants
     public static final int BULLET_SPEED = 15;
     public static final int BULLET_HEIGHT = 4;
@@ -19,13 +17,14 @@ public class Bullet extends ABullet{
      */
     public Bullet(Point spawnPoint){
         this.position = spawnPoint;
+        setVelocity(new Point(BULLET_SPEED, 0));
     }
 
     /**
      * Method call that moves the bullet.
      */
     public void move() {
-        this.position.x += BULLET_SPEED;
+        this.position.x += this.getVelocity().getX();
         this.checkVisibility();
     }
 }

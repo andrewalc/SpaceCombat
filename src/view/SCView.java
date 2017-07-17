@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 public class SCView extends JFrame {
-	private Craft craft;
 	public static final int WINDOW_WIDTH = 1000;
 	public static final int WINDOW_HEIGHT = 600;
 	public static final Dimension WINDOW_DIM = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -50,8 +49,7 @@ public class SCView extends JFrame {
 	}
 
 	public void updateView(GameState state, int tickCount) {
-		this.craft = state.getPlayer();
 		fieldPanel.updateState(state);
-		hudPanel.updateHud(this.craft, tickCount);
+		hudPanel.updateHud(state.getPlayer(), tickCount);
 	}
 }

@@ -11,7 +11,6 @@ import java.awt.*;
 public class SpaceField extends JPanel {
 
     public GameState state;
-    public static final int CRAFT_HITBOX_RADIUS = 10;
     public static final Dimension FIELD_DIM = new Dimension(SCView.WINDOW_WIDTH,
             SCView.WINDOW_HEIGHT - (int) Hud.HUD_DIM.getHeight()-23);
 
@@ -28,10 +27,8 @@ public class SpaceField extends JPanel {
 
     @Override
     public void paintComponent(Graphics g){
-        g.setColor(Color.CYAN);
         drawPlayer(g);
         drawPlayerBullets(g);
-        //TODO: Enemy bullets are overriding player bullets???
         drawEnemyBullets(g);
         drawEnemies(g);
         drawAsteroids(g);
@@ -48,18 +45,25 @@ public class SpaceField extends JPanel {
 
     private void drawPlayerBullets(Graphics g) {
         g.setColor(Color.RED);
-        for(ABullet b: state.getPlayer().getBullets()){
-            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
-                    Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
+        for(AProjectile b: state.getPlayer().getBullets()){
+            if(b.isVisible()){
+                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
+                        Bullet.BULLET_WIDTH, Bullet.BULLET_HEIGHT);
+            }
         }
     }
 
     private void drawEnemyBullets(Graphics g) {
         g.setColor(Color.GREEN);
         for(EnemyCraft enemy : state.getEnemies()){
-            for(ABullet b: enemy.getBullets()){
-                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
-                        EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
+            for(AProjectile b: enemy.getBullets()){
+                //draw origin
+                //g.drawRect((int)b.getPosition().getX(), (int)b.getPosition().getY(), 1,1);
+                if(b.isVisible()){
+                    g.drawRect((int) b.getPosition().getX() - EnemyBullet.ENEMY_BULLET_WIDTH/2,
+                            (int) b.getPosition().getY() - EnemyBullet.ENEMY_BULLET_HEIGHT/2,
+                            EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
+                }
             }
         }
 
@@ -68,9 +72,12 @@ public class SpaceField extends JPanel {
 
     private void drawPlayer(Graphics g) {
         if(this.state.getPlayer().isVisible()){
-            g.drawRect(state.getPlayer().getPosition().x - CRAFT_HITBOX_RADIUS,
-                    state.getPlayer().getPosition().y - CRAFT_HITBOX_RADIUS,
-                    CRAFT_HITBOX_RADIUS*2, CRAFT_HITBOX_RADIUS*2);
+            g.setColor(Color.CYAN);
+            //draw origin
+            //g.drawOval((int)state.getPlayer().getPosition().getX(), (int)state.getPlayer().getPosition().getY(), 1,1);
+            g.drawRect((int)state.getPlayer().getPosition().getX() - Craft.PLAYER_HITBOX_RADIUS,
+                    (int)state.getPlayer().getPosition().getY() - Craft.PLAYER_HITBOX_RADIUS,
+                    Craft.PLAYER_HITBOX_RADIUS*2, Craft.PLAYER_HITBOX_RADIUS*2);
         }
     }
 
@@ -78,9 +85,11 @@ public class SpaceField extends JPanel {
         for(EnemyCraft enemy : this.state.getEnemies()){
             if(enemy.isVisible()){
                 g.setColor(Color.RED);
-                g.drawRect(enemy.getPosition().x - EnemyCraft.ENEMY_HITBOX,
-                        enemy.getPosition().y - EnemyCraft.ENEMY_HITBOX,
-                        EnemyCraft.ENEMY_HITBOX*2, EnemyCraft.ENEMY_HITBOX*2);
+                //draw origin
+                //g.drawOval((int)enemy.getPosition().getX(), (int)enemy.getPosition().getY(), 1,1);
+                g.drawRect((int) enemy.getPosition().getX() - EnemyCraft.ENEMY_HITBOX_RADIUS,
+                        (int) enemy.getPosition().getY() - EnemyCraft.ENEMY_HITBOX_RADIUS,
+                        EnemyCraft.ENEMY_HITBOX_RADIUS*2, EnemyCraft.ENEMY_HITBOX_RADIUS*2);
             }
         }
 

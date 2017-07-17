@@ -5,12 +5,12 @@ import java.awt.event.KeyListener;
 import java.util.Map;
 
 /**
- * A Keyboard listener for a view to control the SC game.
+ * A Keylistener for a view to control the SC game.
  */
-public class KeyboardListener implements KeyListener{
+public class SCKeyListener implements KeyListener{
     private Map<Integer, Runnable> keyPressedMap;
 
-    public KeyboardListener(){
+    public SCKeyListener(){
 
     }
 

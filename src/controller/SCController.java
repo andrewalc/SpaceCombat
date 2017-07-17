@@ -23,10 +23,10 @@ public class SCController {
         this.state = state;
         this.view = view;
         view.updateView(state, 0);
-        configureKeyboardListener();
+        configureSCKeyListener();
     }
 
-    private void configureKeyboardListener(){
+    private void configureSCKeyListener(){
         // Map for Keys to commands
         Map<Integer, Runnable> keyPresses = new HashMap<Integer, Runnable>();
 
@@ -60,9 +60,9 @@ public class SCController {
             state.getPlayer().keyMove(KeyEvent.VK_R);
         });
 
-        KeyboardListener kbd = new KeyboardListener();
-        kbd.setKeyPressedMap(keyPresses);
-        view.addKeyListener(kbd);
+        SCKeyListener kl = new SCKeyListener();
+        kl.setKeyPressedMap(keyPresses);
+        view.addKeyListener(kl);
     }
 
     public void startSpaceCombat(){
