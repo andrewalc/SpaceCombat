@@ -57,7 +57,7 @@ public class SpaceField extends JPanel {
     private void drawEnemyBullets(Graphics g) {
         g.setColor(Color.GREEN);
         for(EnemyCraft enemy : state.getEnemies()){
-            for(ABullet b: state.getPlayer().getBullets()){
+            for(ABullet b: enemy.getBullets()){
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(),
                         EnemyBullet.ENEMY_BULLET_WIDTH, EnemyBullet.ENEMY_BULLET_HEIGHT);
             }
