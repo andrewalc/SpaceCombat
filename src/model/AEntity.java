@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract class for an entity, particularly space crafts.
@@ -15,9 +16,10 @@ public abstract class AEntity {
 
     protected boolean visible = true;
     protected boolean invincible = false;
+
     // TODO: Consider making enemy bullets a field in GameState instead of being tied to a enemy.
     // When an enemy is removed from the game all their bullets get deleted too. They should probably persist. Workaround?
-    protected ArrayList<AProjectile> bullets;
+    protected List<AProjectile> bullets;
 
     /**
      * Turns invincibility on.
@@ -78,7 +80,8 @@ public abstract class AEntity {
         }
     }
 
-    public ArrayList<AProjectile> getBullets() {
+
+    public List<AProjectile> getBullets() {
         return bullets;
     }
 
