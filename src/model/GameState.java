@@ -2,7 +2,7 @@ package model;
 
 import view.SpaceField;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 

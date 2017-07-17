@@ -1,8 +1,9 @@
 package model;
 
+import java.awt.Point;
+
 import view.SCView;
 
-import java.awt.*;
 
 /**
  * Created by Andrew on 7/15/17.

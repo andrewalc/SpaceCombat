@@ -1,6 +1,7 @@
 package model;
 
-import java.awt.*;
+
+import java.awt.Point;
 
 /**
  * Class that represents a standard bullet.

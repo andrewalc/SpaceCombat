@@ -1,6 +1,7 @@
 package model;
 
-import java.awt.*;
+
+import java.awt.Point;
 
 /**
  * Class representing an asteroid that should fly across the screen.

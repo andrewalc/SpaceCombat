@@ -2,7 +2,8 @@ package model;
 
 import view.SpaceField;
 
-import java.awt.*;
+
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
