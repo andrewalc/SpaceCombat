@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andrew on 7/15/17.
@@ -15,7 +16,7 @@ public abstract class AEntity {
 
     protected boolean visible = true;
     protected boolean invincible = false;
-    protected ArrayList<ABullet> bullets;
+    protected List<ABullet> bullets;
 
     /**
      * Turns invincibility on.
@@ -76,7 +77,7 @@ public abstract class AEntity {
         }
     }
 
-    public ArrayList<ABullet> getBullets() {
+    public List<ABullet> getBullets() {
         return bullets;
     }
 
