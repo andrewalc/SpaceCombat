@@ -13,37 +13,14 @@ public abstract class AEntity {
   protected int hitboxRadius;
   protected int hp;
 
-  // Boolean states
-  protected boolean visible = true;
-  protected boolean invincible = false;
-
   // TODO: Consider making enemy bullets a field in GameState instead of being tied to a enemy.
   // When an enemy is removed from the game all their bullets get deleted too. They should
   // probably persist. Workaround?
   protected List<AProjectile> bullets;
 
-  /**
-   * Turns invincibility on.
-   */
-  public void enableInvincibility() {
-    this.invincible = true;
-  }
-
-  /**
-   * Turns invincibility off.
-   */
-  public void disableInvincibility() {
-    this.invincible = false;
-  }
-
-  /**
-   * Returns the entity's current hp.
-   *
-   * @return Current HP.
-   */
-  public int getHp() {
-    return hp;
-  }
+  // Boolean states
+  protected boolean visible = true;
+  protected boolean invincible = false;
 
   /**
    * Returns the current position of the entity as a point.
@@ -64,22 +41,30 @@ public abstract class AEntity {
   }
 
   /**
-   * Kills this entity by setting its HP to 0.
+   * Returns the entity's current hp.
+   *
+   * @return Current HP.
    */
-  public void kill() {
-    this.hp = 0;
+  public int getHp() {
+    return hp;
+  }
+  
+  /**
+   * Returns the List of bullets (AProjectiles) that belong to this entity.
+   *
+   * @return A List of (AProjectile) Bullets belonging to this entity.
+   */
+  public List<AProjectile> getBullets() {
+    return bullets;
   }
 
   /**
-   * Method that causes this entity to take a given amount of damage. The entity's HP is
-   * reduced by the given amount.
+   * Returns whether this entity is currently visible.
    *
-   * @param damageTaken Integer representing how much damage to take.
+   * @return Boolean representing the entity's current visibility state.
    */
-  public void damage(int damageTaken) {
-    if (!invincible) {
-      this.hp -= damageTaken;
-    }
+  public boolean isVisible() {
+    return visible;
   }
 
   /**
@@ -106,12 +91,17 @@ public abstract class AEntity {
   }
 
   /**
-   * Returns whether this entity is currently visible.
-   *
-   * @return Boolean representing the entity's current visibility state.
+   * Turns invincibility on.
    */
-  public boolean isVisible() {
-    return visible;
+  public void enableInvincibility() {
+    this.invincible = true;
+  }
+
+  /**
+   * Turns invincibility off.
+   */
+  public void disableInvincibility() {
+    this.invincible = false;
   }
 
   /**
@@ -120,14 +110,23 @@ public abstract class AEntity {
    */
   public abstract void move();
 
+  /**
+   * Kills this entity by setting its HP to 0.
+   */
+  public void kill() {
+    this.hp = 0;
+  }
 
   /**
-   * Returns the List of bullets (AProjectiles) that belong to this entity.
+   * Method that causes this entity to take a given amount of damage. The entity's HP is
+   * reduced by the given amount.
    *
-   * @return A List of (AProjectile) Bullets belonging to this entity.
+   * @param damageTaken Integer representing how much damage to take.
    */
-  public List<AProjectile> getBullets() {
-    return bullets;
+  public void damage(int damageTaken) {
+    if (!invincible) {
+      this.hp -= damageTaken;
+    }
   }
 
   /**
