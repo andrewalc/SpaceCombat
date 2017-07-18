@@ -7,7 +7,7 @@ import java.util.List;
  * Abstract class for an entity, particularly space crafts.
  */
 public abstract class AEntity {
-  
+
   // Make sure these are set properly in implementations
   protected Point position;
   protected Point velocity;
@@ -125,6 +125,7 @@ public abstract class AEntity {
    * @param damageTaken Integer representing how much damage to take.
    */
   public void damage(int damageTaken) {
+    //TODO: Create specific damage methods instead of damage calls everywhere(see damagedByBullet())
     if (!invincible) {
       this.hp -= damageTaken;
     }
