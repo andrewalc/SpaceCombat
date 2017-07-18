@@ -9,6 +9,7 @@ import view.SCView;
  * Abstract class representing a projectile (ex: Bullets, Asteroids).
  */
 public abstract class AProjectile {
+
   // Values
   protected Point position;
   protected Point velocity;

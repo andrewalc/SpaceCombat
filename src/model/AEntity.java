@@ -7,6 +7,7 @@ import java.util.List;
  * Abstract class for an entity, particularly space crafts.
  */
 public abstract class AEntity {
+  
   // Make sure these are set properly in implementations
   protected Point position;
   protected Point velocity;
@@ -48,7 +49,7 @@ public abstract class AEntity {
   public int getHp() {
     return hp;
   }
-  
+
   /**
    * Returns the List of bullets (AProjectiles) that belong to this entity.
    *
