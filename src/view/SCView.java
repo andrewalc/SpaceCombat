@@ -1,14 +1,15 @@
 package view;
 
-import model.Craft;
 import model.GameState;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyListener;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
 
 public class SCView extends JFrame {
 	public static final int WINDOW_WIDTH = 1000;

@@ -1,9 +1,13 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+
 import model.Craft;
 import model.GameState;
 
-import java.awt.*;
 
 import javax.swing.JPanel;
 

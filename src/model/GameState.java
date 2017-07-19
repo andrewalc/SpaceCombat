@@ -2,7 +2,7 @@ package model;
 
 import view.SpaceField;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -124,7 +124,7 @@ public class GameState {
                 if  (Math.abs(enemy.getPosition().getX() - b.getPosition().getX()) < Bullet.BULLET_WIDTH/2 + EnemyCraft.ENEMY_HITBOX_RADIUS
                         && Math.abs(enemy.getPosition().getY() - b.getPosition().getY()) < Bullet.BULLET_HEIGHT/2 + EnemyCraft.ENEMY_HITBOX_RADIUS){
                     System.out.println("ENEMY COLLISION!!!!!");
-                    enemy.collisionWithBullet();
+                    enemy.damagedByBullet();
                     b.collisionWithObject();
                 }
             }

@@ -1,9 +1,9 @@
+import java.awt.Point;
+
 import controller.SCController;
-import model.Craft;
 import model.GameState;
 import view.SCView;
 
-import java.awt.*;
 
 public class SpaceCombat {
 
