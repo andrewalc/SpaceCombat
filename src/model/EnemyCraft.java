@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Class that represents an SpaceShooter Enemy Space Craft.
  */
-public class EnemyCraft extends AEntity {
+public class EnemyCraft extends ACraft {
 
   // Constants
   public static final int ENEMY_HITBOX_RADIUS = 20;

@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class GameState {
     // Objects
-    private Craft craft;
+    private PlayerCraft craft;
 
     private ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 
@@ -39,10 +39,10 @@ public class GameState {
     private int invincibilityTick = -1;
 
     public GameState(Point spawnPosition){
-        this.craft = new Craft(spawnPosition);
+        this.craft = new PlayerCraft(spawnPosition);
     }
 
-    public Craft getPlayer(){
+    public PlayerCraft getPlayer(){
         return this.craft;
     }
 
@@ -149,8 +149,8 @@ public class GameState {
     public void playerCollisions(int tickCount) {
         for (Asteroid a : this.asteroids) {
             // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
-            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX
-                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX) {
+            if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < PlayerCraft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX
+                    && Math.abs(this.craft.getPosition().getY() - a.getPosition().getY()) < PlayerCraft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX) {
                 if (!this.craft.isInvincible()) {
                     if (this.craft.getHp() - DAMAGE_ASTEROID_COLLISION < 0) {
                         this.craft.kill();
@@ -164,8 +164,8 @@ public class GameState {
 
         for (EnemyCraft enemy : this.enemies) {
             // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
-            if (Math.abs(this.craft.position.getX() - enemy.position.getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS
-                    && Math.abs(this.craft.position.getY() - enemy.position.getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS) {
+            if (Math.abs(this.craft.position.getX() - enemy.position.getX()) < PlayerCraft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS
+                    && Math.abs(this.craft.position.getY() - enemy.position.getY()) < PlayerCraft.PLAYER_HITBOX_RADIUS + EnemyCraft.ENEMY_HITBOX_RADIUS) {
                 if (!this.craft.isInvincible()) {
                     if (this.craft.getHp() - DAMAGE_ENEMY_CRAFT_COLLISION < 0) {
                         craft.kill();
@@ -178,8 +178,8 @@ public class GameState {
             }
 
             for (AProjectile eb : enemy.getBullets()) {
-                if (Math.abs(this.craft.getPosition().getX() - eb.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
-                        && Math.abs(this.craft.getPosition().getY() - eb.getPosition().getY()) < Craft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
+                if (Math.abs(this.craft.getPosition().getX() - eb.getPosition().getX()) < PlayerCraft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_WIDTH/2
+                        && Math.abs(this.craft.getPosition().getY() - eb.getPosition().getY()) < PlayerCraft.PLAYER_HITBOX_RADIUS + EnemyBullet.ENEMY_BULLET_HEIGHT/2) {
                     if (!this.craft.invincible) {
                         if (this.craft.getHp() - DAMAGE_ENEMY_BULLET < 0) {
                             craft.kill();
@@ -246,8 +246,8 @@ public class GameState {
     }
 
     public int generateYVal() {
-        int min = Craft.PLAYER_HITBOX_RADIUS;
-        int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX_RADIUS;
+        int min = PlayerCraft.PLAYER_HITBOX_RADIUS;
+        int max = (int) SpaceField.FIELD_DIM.getHeight() - PlayerCraft.PLAYER_HITBOX_RADIUS;
         return new Random().nextInt(max + 1 - min) + min;
     }
 
