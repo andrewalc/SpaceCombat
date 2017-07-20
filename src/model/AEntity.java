@@ -17,7 +17,7 @@ public abstract class AEntity {
   boolean visible = true;
 
   /**
-   * Returns the current position of the projectile as a point.
+   * Returns the current position of the entity as a point.
    *
    * @return Point representing the current position.
    */
@@ -26,7 +26,7 @@ public abstract class AEntity {
   }
 
   /**
-   * Returns the current velocity of the projectile as a point.
+   * Returns the current velocity of the entity as a point.
    *
    * @return Point representing the current velocity.
    */
@@ -35,19 +35,19 @@ public abstract class AEntity {
   }
 
   /**
-   * Sets the current velocity of the projectile to the given Point, representing its X and Y
+   * Sets the current velocity of the entity to the given Point, representing its X and Y
    * velocity.
    *
-   * @param velocity A Point representing the X and Y velocity this projectile should be set to.
+   * @param velocity A Point representing the X and Y velocity this entity should be set to.
    */
   public void setVelocity(Point velocity) {
     this.velocity = velocity;
   }
 
   /**
-   * Returns whether this projectile is currently visible.
+   * Returns whether this entity is currently visible.
    *
-   * @return Boolean representing the projectile's current visibility state.
+   * @return Boolean representing the entity's current visibility state.
    */
   public boolean isVisible() {
     return visible;
