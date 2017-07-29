@@ -1,27 +1,20 @@
 package model;
 
 import java.awt.Point;
-import java.util.List;
 
 /**
- * Abstract class for an entity, particularly space crafts.
+ * @author Ethan McCue
+ *
+ * Class to represent any entity that can be placed in the game
  */
 public abstract class AEntity {
 
-  // Make sure these are set properly in implementations
+  // Values
   protected Point position;
   protected Point velocity;
-  protected int hitboxRadius;
-  protected int hp;
-
-  // TODO: Consider making enemy bullets a field in GameState instead of being tied to a enemy.
-  // When an enemy is removed from the game all their bullets get deleted too. They should
-  // probably persist. Workaround?
-  protected List<AProjectile> bullets;
 
   // Boolean states
-  protected boolean visible = true;
-  protected boolean invincible = false;
+  boolean visible = true;
 
   /**
    * Returns the current position of the entity as a point.
@@ -42,21 +35,13 @@ public abstract class AEntity {
   }
 
   /**
-   * Returns the entity's current hp.
+   * Sets the current velocity of the entity to the given Point, representing its X and Y
+   * velocity.
    *
-   * @return Current HP.
+   * @param velocity A Point representing the X and Y velocity this entity should be set to.
    */
-  public int getHp() {
-    return hp;
-  }
-
-  /**
-   * Returns the List of bullets (AProjectiles) that belong to this entity.
-   *
-   * @return A List of (AProjectile) Bullets belonging to this entity.
-   */
-  public List<AProjectile> getBullets() {
-    return bullets;
+  public void setVelocity(Point velocity) {
+    this.velocity = velocity;
   }
 
   /**
@@ -67,7 +52,7 @@ public abstract class AEntity {
   public boolean isVisible() {
     return visible;
   }
-
+  
   /**
    * Enables this entity's visibility.
    */
@@ -80,67 +65,6 @@ public abstract class AEntity {
    */
   public void disableVisibility() {
     this.visible = false;
-  }
-
-  /**
-   * Returns whether this entity is currently invincible.
-   *
-   * @return Boolean representing the entity's current invincibility state.
-   */
-  public boolean isInvincible() {
-    return invincible;
-  }
-
-  /**
-   * Turns invincibility on.
-   */
-  public void enableInvincibility() {
-    this.invincible = true;
-  }
-
-  /**
-   * Turns invincibility off.
-   */
-  public void disableInvincibility() {
-    this.invincible = false;
-  }
-
-  /**
-   * Causes the entity to move accordingly by referring to its velocity and using it to update
-   * it's position. This method should be called on every tick.
-   */
-  public abstract void move();
-
-  /**
-   * Kills this entity by setting its HP to 0.
-   */
-  public void kill() {
-    this.hp = 0;
-  }
-
-  /**
-   * Method that causes this entity to take a given amount of damage. The entity's HP is
-   * reduced by the given amount.
-   *
-   * @param damageTaken Integer representing how much damage to take.
-   */
-  public void damage(int damageTaken) {
-    //TODO: Create specific damage methods instead of damage calls everywhere(see damagedByBullet())
-    if (!invincible) {
-      this.hp -= damageTaken;
-    }
-  }
-
-  /**
-   * Checks if any bullets belonging to this entity are no longing visible. If so, it
-   * removes them from the list of bullets.
-   */
-  public void cleanUpBullets() {
-    for (int i = 0; i < this.bullets.size(); i++) {
-      if (!this.bullets.get(i).visible) {
-        this.bullets.remove(i);
-      }
-    }
   }
 
 

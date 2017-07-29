@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import model.Craft;
+import model.PlayerCraft;
 import model.GameState;
 
 
@@ -120,7 +120,7 @@ public class Hud extends JPanel {
 				(int) HUD_DIM.getHeight() - (2 * HUD_BORDER_OFFSET));
 	}
 
-	public void updateHud(Craft craft, int tickCount){
+	public void updateHud(PlayerCraft craft, int tickCount){
 		this.hp = craft.getHp();
 		this.ammo = craft.getAmmo();
 		this.score = craft.getScore();
