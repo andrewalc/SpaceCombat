@@ -1,16 +1,26 @@
 package view;
 
-import model.*;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+import model.AProjectile;
+import model.Asteroid;
+import model.Bullet;
+import model.Craft;
+import model.EnemyBullet;
+import model.EnemyCraft;
+import model.GameState;
 
 /**
  * Class that represents the space playing field.
  */
 public class SpaceField extends JPanel {
 
-    public GameState state;
+    private GameState state;
     public static final Dimension FIELD_DIM = new Dimension(SCView.WINDOW_WIDTH,
             SCView.WINDOW_HEIGHT - (int) Hud.HUD_DIM.getHeight()-23);
 
