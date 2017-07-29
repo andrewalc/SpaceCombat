@@ -31,6 +31,8 @@ public abstract class AProjectile {
     public boolean isVisible() {
         return visible;
     }
+
+
     /**
      * Checks whether this bullet is still on screen and should be rendered.
      */
