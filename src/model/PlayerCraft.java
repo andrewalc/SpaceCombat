@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class that represents an SpaceShooter Space Craft.
  */
-public class Craft extends AEntity {
+public class PlayerCraft extends ACraft {
 
   // Constants
   public static final int PLAYER_HITBOX_RADIUS = 10;
@@ -34,7 +34,7 @@ public class Craft extends AEntity {
    *
    * @param spawnPoint Point where the craft should spawn.
    */
-  public Craft(Point spawnPoint) {
+  public PlayerCraft(Point spawnPoint) {
     // Spawn point
     this.position = spawnPoint;
     // Set variables

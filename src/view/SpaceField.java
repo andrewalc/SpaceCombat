@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import model.AProjectile;
 import model.Asteroid;
 import model.Bullet;
-import model.Craft;
+import model.PlayerCraft;
 import model.EnemyBullet;
 import model.EnemyCraft;
 import model.GameState;
@@ -85,9 +85,9 @@ public class SpaceField extends JPanel {
             g.setColor(Color.CYAN);
             //draw origin
             //g.drawOval((int)state.getPlayer().getPosition().getX(), (int)state.getPlayer().getPosition().getY(), 1,1);
-            g.drawRect((int)state.getPlayer().getPosition().getX() - Craft.PLAYER_HITBOX_RADIUS,
-                    (int)state.getPlayer().getPosition().getY() - Craft.PLAYER_HITBOX_RADIUS,
-                    Craft.PLAYER_HITBOX_RADIUS*2, Craft.PLAYER_HITBOX_RADIUS*2);
+            g.drawRect((int)state.getPlayer().getPosition().getX() - PlayerCraft.PLAYER_HITBOX_RADIUS,
+                    (int)state.getPlayer().getPosition().getY() - PlayerCraft.PLAYER_HITBOX_RADIUS,
+                    PlayerCraft.PLAYER_HITBOX_RADIUS*2, PlayerCraft.PLAYER_HITBOX_RADIUS*2);
         }
     }
 
