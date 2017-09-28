@@ -55,7 +55,7 @@ public class GameState {
     }
 
 
-    public void updateIsGameOver(){
+    private void updateIsGameOver(){
         if (this.craft.getHp() <= 0){
             this.gameOver = true;
         }
@@ -107,7 +107,7 @@ public class GameState {
         this.cleanUpEnemyCrafts();
     }
 
-    public void cleanUpEnemyCrafts() {
+    private void cleanUpEnemyCrafts() {
         for (int i = 0; i < this.enemies.size(); i++){
             if (!this.enemies.get(i).isVisible()){
                 this.enemies.remove(i);
@@ -131,7 +131,7 @@ public class GameState {
         }
     }
 
-    public void bulletAsteroidCollisions() {
+    private void bulletAsteroidCollisions() {
         for (AProjectile b: this.craft.getBullets()){
             for (Asteroid a: this.asteroids){
                 if  (Math.abs(a.getPosition().getX() - b.getPosition().getX())
@@ -146,7 +146,7 @@ public class GameState {
     }
 
 
-    public void playerCollisions(int tickCount) {
+    private void playerCollisions(int tickCount) {
         for (Asteroid a : this.asteroids) {
             // Collision dectection is treated by checking x and y axis only, so just imagine squares around both.
             if (Math.abs(this.craft.getPosition().getX() - a.getPosition().getX()) < Craft.PLAYER_HITBOX_RADIUS + Asteroid.ASTEROID_RADIUS_HITBOX
@@ -195,7 +195,7 @@ public class GameState {
         }
     }
 
-    public void damageInvincibilityTrigger(int tickCount) {
+    private void damageInvincibilityTrigger(int tickCount) {
             if (this.invincibilityTick == -1) {
                 int currentTick = tickCount;
                 this.invincibilityTick = currentTick + INVINCIBILITY_FRAMES;
@@ -237,7 +237,7 @@ public class GameState {
         this.cleanUpAsteroids();
     }
 
-    public void cleanUpAsteroids() {
+    private void cleanUpAsteroids() {
         for (int i = 0; i < this.asteroids.size(); i++){
             if (!this.asteroids.get(i).isVisible()){
                 this.asteroids.remove(i);
@@ -245,13 +245,13 @@ public class GameState {
         }
     }
 
-    public int generateYVal() {
+    private int generateYVal() {
         int min = Craft.PLAYER_HITBOX_RADIUS;
         int max = (int) SpaceField.FIELD_DIM.getHeight() - Craft.PLAYER_HITBOX_RADIUS;
         return new Random().nextInt(max + 1 - min) + min;
     }
 
-    public void manageBullets() {
+    private void manageBullets() {
         // move all bullets
         for (AProjectile b : craft.getBullets()) {
             b.move();
@@ -261,7 +261,7 @@ public class GameState {
         craft.cleanUpBullets();
     }
 
-    public void manageAmmo(int tickCount) {
+    private void manageAmmo(int tickCount) {
 
         if (this.craft.isReloadingAmmo() && ammoFutureTick == -1){
             ammoFutureTick = tickCount + RELOAD_TIME;
