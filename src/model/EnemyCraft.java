@@ -119,21 +119,17 @@ public class EnemyCraft extends ACraft {
     // blocking out of bounds area and resetting velocity
     if (this.position.x > SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius / 2) {
       this.position.x = (int) SpaceField.FIELD_DIM.getWidth() - this.hitboxRadius / 2;
-      this.velocity.x = 0;
     }
     if (this.position.x < 0 + this.hitboxRadius / 2) {
       this.position.x = 0 + this.hitboxRadius / 2;
-      this.velocity.x = 0;
 
     }
     if (this.position.y > (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius / 2) {
       this.position.y = (int) SpaceField.FIELD_DIM.getHeight() - this.hitboxRadius / 2;
-      this.velocity.y = 0;
 
     }
     if (this.position.y < 0 + this.hitboxRadius / 2) {
       this.position.y = 0 + this.hitboxRadius / 2;
-      this.velocity.y = 0;
 
     }
   }
