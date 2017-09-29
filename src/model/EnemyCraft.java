@@ -4,6 +4,7 @@ import view.SpaceField;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class that represents an SpaceShooter Enemy Space Craft.
@@ -20,6 +21,7 @@ public class EnemyCraft extends ACraft {
 
   // Values
   private int tickCreated;
+  boolean moveState = false;
 
   /**
    * Constructor for an EnemyCraft. Requires a point to spawn the craft at.
@@ -47,6 +49,11 @@ public class EnemyCraft extends ACraft {
     return tickCreated;
   }
 
+  // Temp way to switch enemys from moving up or down.
+  public void moveTrigger(){
+    moveState = !moveState;
+  }
+
   /**
    * Creates and fires a Bullet in front of the EnemyCraft's current position on call.
    */
@@ -64,6 +71,13 @@ public class EnemyCraft extends ACraft {
 
   @Override
   public void move() {
+
+    if(moveState){
+      this.setVelocity(new Point(0, (new Random().nextInt(10)) + 5));
+    }
+    if(!moveState){
+      this.setVelocity(new Point(0, ((new Random().nextInt(10)) + 5) * -1));
+    }
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
     // slowing down in the x+ direction
@@ -118,4 +132,6 @@ public class EnemyCraft extends ACraft {
 
     }
   }
+
+
 }
