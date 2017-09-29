@@ -4,6 +4,8 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
@@ -82,24 +84,44 @@ public class SpaceField extends JPanel {
 
     private void drawPlayer(Graphics g) {
         if(this.state.getPlayer().isVisible()){
-            g.setColor(Color.CYAN);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setColor(Color.CYAN);
             //draw origin
             //g.drawOval((int)state.getPlayer().getPosition().getX(), (int)state.getPlayer().getPosition().getY(), 1,1);
-            g.drawRect((int)state.getPlayer().getPosition().getX() - PlayerCraft.PLAYER_HITBOX_RADIUS,
+            // Rotates the Graphics, draws the player, and rotates the graphics back. This result
+            // is a rotating player in accordance with velocity, but the hitbox is still a static
+            // square.
+            AffineTransform oldTransform = g2d.getTransform();
+            g2d.rotate(Math.toRadians(state.getPlayer().getVelocity().getY()) * 1.5, state
+                    .getPlayer()
+                    .getPosition().getX(), state.getPlayer().getPosition().getY());
+            g2d.drawRect((int)state.getPlayer().getPosition().getX() - PlayerCraft
+                            .PLAYER_HITBOX_RADIUS,
                     (int)state.getPlayer().getPosition().getY() - PlayerCraft.PLAYER_HITBOX_RADIUS,
                     PlayerCraft.PLAYER_HITBOX_RADIUS*2, PlayerCraft.PLAYER_HITBOX_RADIUS*2);
+            g2d.setTransform(oldTransform);
+
         }
     }
 
     private void drawEnemies(Graphics g) {
         for(EnemyCraft enemy : this.state.getEnemies()){
             if(enemy.isVisible()){
-                g.setColor(Color.RED);
+                Graphics2D g2d = (Graphics2D)g;
+
                 //draw origin
                 //g.drawOval((int)enemy.getPosition().getX(), (int)enemy.getPosition().getY(), 1,1);
+                // Rotates the Graphics, draws the enemy, and rotates the graphics back. This result
+                // is a rotating player in accordance with velocity, but the hitbox is still a static
+                // square.
+                AffineTransform oldTransform = g2d.getTransform();
+                g2d.rotate(Math.toRadians(enemy.getVelocity().getY()) * 1.5, enemy
+                        .getPosition().getX(), enemy.getPosition().getY());
+                g.setColor(Color.RED);
                 g.drawRect((int) enemy.getPosition().getX() - EnemyCraft.ENEMY_HITBOX_RADIUS,
                         (int) enemy.getPosition().getY() - EnemyCraft.ENEMY_HITBOX_RADIUS,
                         EnemyCraft.ENEMY_HITBOX_RADIUS*2, EnemyCraft.ENEMY_HITBOX_RADIUS*2);
+                g2d.setTransform(oldTransform);
             }
         }
 
