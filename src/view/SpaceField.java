@@ -93,7 +93,9 @@ public class SpaceField extends JPanel {
             // is a rotating player in accordance with velocity, but the hitbox is still a static
             // square.
             AffineTransform oldTransform = g2d.getTransform();
-            g2d.rotate(Math.toRadians(state.getPlayer().getVelocity().getY()) * 1.5, state
+            g2d.rotate(Math.toRadians(state.getPlayer().getVelocity().getY() + (state
+                    .getPlayer().getVelocity().getX())
+            ) * 1.5, state
                     .getPlayer()
                     .getPosition().getX(), state.getPlayer().getPosition().getY());
             g2d.drawRect((int)state.getPlayer().getPosition().getX() - PlayerCraft

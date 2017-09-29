@@ -31,7 +31,7 @@ public class GameState {
     public static final int SCORE_ENEMY_CRAFT = 100;
 
     public static final int INVINCIBILITY_FRAMES = 25;
-    public static final int MAX_ENEMY_CRAFT = 10;
+    public static final int MAX_ENEMY_CRAFT = 4;
 
 
 
