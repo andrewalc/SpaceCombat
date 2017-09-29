@@ -100,7 +100,7 @@ public class GameState {
                 enemy.fireBullet();
             }
             // on tick, switch the direction the enemy is going.
-            if((tickCount - enemy.getTickCreated()) % 33 == 0){
+            if((tickCount - enemy.getTickCreated()) % enemy.getVelocity().getY() == 0){
                 enemy.moveTrigger();
             }
             for (AProjectile eb : enemy.getBullets()){

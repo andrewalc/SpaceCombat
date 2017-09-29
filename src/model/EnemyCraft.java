@@ -21,7 +21,7 @@ public class EnemyCraft extends ACraft {
 
   // Values
   private int tickCreated;
-  boolean moveState = false;
+  int moveState = 0;
 
   /**
    * Constructor for an EnemyCraft. Requires a point to spawn the craft at.
@@ -51,7 +51,12 @@ public class EnemyCraft extends ACraft {
 
   // Temp way to switch enemys from moving up or down.
   public void moveTrigger(){
-    moveState = !moveState;
+    if(moveState == 0){
+      moveState = 1;
+    }
+    else if(moveState == 1){
+      moveState = 0;
+    }
   }
 
   /**
@@ -71,12 +76,12 @@ public class EnemyCraft extends ACraft {
 
   @Override
   public void move() {
-
-    if(moveState){
-      this.setVelocity(new Point(0, (new Random().nextInt(10)) + 5));
+    if(moveState == 0){
+      this.setVelocity(new Point(0, (new Random().nextInt(10)) + (int) ENEMY_ACCELERATION));
     }
-    if(!moveState){
-      this.setVelocity(new Point(0, ((new Random().nextInt(10)) + 5) * -1));
+    else if(moveState == 1){
+      this.setVelocity(new Point(0, ((new Random().nextInt(10)) + (int) ENEMY_ACCELERATION) *
+              -1));
     }
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
