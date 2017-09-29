@@ -25,6 +25,7 @@ public class SpaceField extends JPanel {
     private GameState state;
     public static final Dimension FIELD_DIM = new Dimension(SCView.WINDOW_WIDTH,
             SCView.WINDOW_HEIGHT - (int) Hud.HUD_DIM.getHeight()-23);
+    private static final double ENEMY_ROTATION_DEGREES = 15;
 
     public SpaceField(){
         setVisible(true);
@@ -115,8 +116,14 @@ public class SpaceField extends JPanel {
                 // is a rotating player in accordance with velocity, but the hitbox is still a static
                 // square.
                 AffineTransform oldTransform = g2d.getTransform();
-                g2d.rotate(Math.toRadians(enemy.getVelocity().getY()) * 1.5, enemy
-                        .getPosition().getX(), enemy.getPosition().getY());
+                if(enemy.getVelocity().getY() > 0){
+                    g2d.rotate(Math.toRadians(ENEMY_ROTATION_DEGREES), enemy
+                            .getPosition().getX(), enemy.getPosition().getY());
+                }
+                if(enemy.getVelocity().getY() < 0){
+                    g2d.rotate(Math.toRadians(-ENEMY_ROTATION_DEGREES), enemy
+                            .getPosition().getX(), enemy.getPosition().getY());
+                }
                 g.setColor(Color.RED);
                 g.drawRect((int) enemy.getPosition().getX() - EnemyCraft.ENEMY_HITBOX_RADIUS,
                         (int) enemy.getPosition().getY() - EnemyCraft.ENEMY_HITBOX_RADIUS,
